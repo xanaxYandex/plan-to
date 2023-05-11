@@ -1,0 +1,77 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$my-primary: mat.define-palette(mat.$pink-palette, 500);
+$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
+
+@include mat.all-component-themes($my-theme);
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400&family=Comfortaa:wght@400;500;600;700&family=Permanent+Marker&display=swap');
+@import url('font-awesome');
+
+
+html {
+  background: linear-gradient(45deg, #d4e7f9, #b6d0ea, rgba(233, 30, 99, 0.56));
+  min-height: 100vh;
+}
+
+* {
+  outline: none;
+  box-sizing: border-box;
+  font-family: 'Jost', sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+  letter-spacing: 1px;
+  font-family: 'Comfortaa', cursive;
+}
+
+body {
+  margin: 0;
+}
+
+a, button {
+  cursor: pointer;
+}
+
+button {
+  transition: 0.2s all;
+  padding: 10px 10px;
+  position: relative;
+  border: 0;
+  border-radius: 15px;
+  background: rgba(#e91e63, 0.56);
+  font-size: 22px;
+  color: white;
+
+  &:hover {
+    background: rgba(#e91e63, 0.76);
+    color: white;
+  }
+
+  &:disabled {
+    background: rgba(233, 30, 99, 0.21);
+    color: #171717;
+    cursor: unset;
+  }
+}
+
+.head-section {
+  width: 100%;
+  display: grid;
+}
+
+.mdc-text-field__input::-webkit-calendar-picker-indicator {
+  display: block !important;
+  cursor: pointer;
+}

@@ -1,0 +1,100 @@
+@import './packages/plan-to/src/assets/styles/mixins.scss';
+
+:host {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+
+  &.expanded {
+    .records-container, .record-overview-container {
+      padding: 40px 30px;
+    }
+
+    @include xs {
+      .records-container  {
+        width: 100%;
+      }
+
+      .record-overview-container {
+        width: 100%;
+        transform: translateX(0);
+      }
+    }
+
+    @include md {
+      .records-container {
+        width: 50%;
+      }
+      .record-overview-container {
+        width: 50%;
+      }
+    }
+  }
+}
+
+.head-section {
+  grid-template-columns: auto min-content min-content;
+  gap: 15px;
+
+  a {
+    justify-self: end;
+
+     button {
+       width: 140px;
+     }
+  }
+}
+
+.records-container {
+  transition-property: transform, width, padding;
+
+  @include xs {
+    padding: 40px 30px;
+  }
+
+  @include md {
+    padding: 10vw 25vw;
+  }
+}
+
+.records-container, .record-overview-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition-duration: 0.4s;
+  transition-timing-function: cubic-bezier(0.22, 0.77, 0.25, 1);
+  height: 100vh;
+  overflow: auto;
+  width: 100%;
+}
+
+.record-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  plan-to-record-item {
+    flex: 0;
+  }
+}
+
+.record-overview-container {
+  transition-property: transform, width;
+  background: white;
+  padding: 0;
+
+  @include xs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    transform: translateX(100vw);
+    width: 100%;
+  }
+  @include md {
+    position: static;
+    width: 0;
+    transform: unset;
+  }
+}

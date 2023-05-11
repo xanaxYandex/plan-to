@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15vw 0 0;
+}
+
+.logo {
+  &__text {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 55px;
+    color: rgba(233, 30, 99, 0.56);
+    filter: drop-shadow(0 6px 5px rgba(0, 0, 0, 0.51));
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: min(100%, 30rem);
+  padding: 0 30px;
+
+  button {
+    margin-top: 20px;
+  }
+}

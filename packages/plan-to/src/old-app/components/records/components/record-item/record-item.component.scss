@@ -1,0 +1,76 @@
+:host-context(.today) {
+  border: 2px solid #e91e63;
+}
+
+:host {
+  transition: 0.2s;
+  transition-property: color, background-color;
+  border-radius: 5px;
+  padding: 10px 15px;
+  box-shadow: 0 5px 10px rgba(128, 128, 128, 0.67);
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.3fr;
+  grid-template-areas:
+   "t t rb"
+   "c tp ."
+   "d a .";
+  grid-row-gap: 20px;
+  grid-column-gap: 5px;
+
+  &:hover {
+    color: white;
+    background-color: rgba(#e91e63, 0.56);
+
+    .remove-btn {
+      background-color: white;
+      color: #e91e63;
+    }
+  }
+
+  * {
+    align-self: center;
+  }
+
+  a {
+    color: unset;
+    text-decoration: unset;
+  }
+
+  .title {
+    grid-area: t;
+    display: inline-grid;
+
+    h2 {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .type {
+    grid-area: tp;
+  }
+
+  .date {
+    grid-area: d;
+  }
+
+  .customer {
+    grid-area: c;
+  }
+
+  .address {
+    grid-area: a;
+  }
+
+  .remove-btn {
+    grid-area: rb;
+    place-self: center;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+
+}
+
+

@@ -1,0 +1,65 @@
+@import './packages/plan-to/src/assets/styles/mixins.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.head-section {
+  a {
+    justify-self: flex-end;
+  }
+}
+
+.content {
+  margin: 60px 0 0 0;
+  display: grid;
+  row-gap: 20px;
+
+  h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.prop {
+  display: grid;
+  column-gap: 20px;
+
+  @include xs {
+    grid-template-columns: 1fr;
+    row-gap: 15px;
+  }
+
+  @include md {
+    grid-template-columns: max(150px, 20%) auto;
+  }
+
+  &__key {
+    align-self: end;
+    font-size: 18px;
+    text-transform: uppercase;
+    border-bottom: 2px solid black;
+  }
+
+  &__value {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+
+    .text-value {
+      word-break: break-word;
+    }
+
+    a {
+      word-break: break-all;
+    }
+  }
+}
+
+.edit {
+  margin-top: 40px;
+  min-width: 180px;
+  align-self: flex-start;
+}

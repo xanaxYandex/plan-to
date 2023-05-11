@@ -1,0 +1,61 @@
+<div class="head-section">
+  <a routerLink="../../">
+    <button><i class="fa fa-close"></i></button>
+  </a>
+</div>
+
+<dl class="content" *ngIf="record$ | async as record; else loader">
+  <h3>{{record.title}}</h3>
+  <div class="prop">
+    <dt class="prop__key">Customer</dt>
+    <dd class="prop__value">{{record.customer}}</dd>
+  </div>
+  <div class="prop">
+    <dt class="prop__key">Date</dt>
+    <dd class="prop__value">{{record.date | date: 'MMMM d, y, HH:mm'}}</dd>
+  </div>
+  <div class="prop">
+    <dt class="prop__key">Deadline</dt>
+    <dd class="prop__value">{{record.deadline | date: 'MMMM d, y, HH:mm'}}</dd>
+  </div>
+  <div class="prop">
+    <dt class="prop__key">Duration</dt>
+    <dd class="prop__value">{{record.duration}}</dd>
+  </div>
+  <div class="prop">
+    <dt class="prop__key">Type</dt>
+    <dd class="prop__value">
+      <mat-chip-listbox>
+        <mat-chip-option *ngFor="let type of record.type">{{type}}</mat-chip-option>
+      </mat-chip-listbox>
+    </dd>
+  </div>
+  <div class="prop">
+    <dt class="prop__key">Location</dt>
+    <dd class="prop__value"><a [href]="record.location.mapUrl" target="_blank">{{record.location.address}}</a></dd>
+  </div>
+  <div class="prop">
+    <dt class="prop__key">Reference</dt>
+    <dd class="prop__value"><a [href]="record.reference" target="_blank">{{record.reference}}</a></dd>
+  </div>
+  <div class="prop">
+    <dt class="prop__key">Props</dt>
+    <dd class="prop__value">{{record.props.length ? record.props : '*EMPTY*'}}</dd>
+  </div>
+  <div class="prop">
+    <dt class="prop__key">Additional Info</dt>
+    <dd class="prop__value">{{record.additionalInfo}}</dd>
+  </div>
+
+  <a [routerLink]="['..', 'editor']">
+    <button class="edit">Edit</button>
+  </a>
+</dl>
+
+<ng-template #loader>
+  <plan-to-loading-indicator></plan-to-loading-indicator>
+</ng-template>
+
+
+
+

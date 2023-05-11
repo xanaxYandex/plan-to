@@ -1,0 +1,83 @@
+<div class="head-section">
+  <a [routerLink]="['..']">
+    <button><i class="fa fa-close"></i></button>
+  </a>
+</div>
+<form class="record-form" [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <input type="text" matInput formControlName="title">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Customer</mat-label>
+    <input type="text" matInput formControlName="customer">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Type</mat-label>
+    <mat-select formControlName="type" multiple>
+      <mat-option *ngFor="let type of filmingTypes" [value]="type">{{type}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Date</mat-label>
+    <input type="datetime-local" matInput formControlName="date">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Deadline</mat-label>
+    <input type="datetime-local" matInput formControlName="deadline">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Duration</mat-label>
+    <input type="number" matInput formControlName="duration">
+  </mat-form-field>
+
+  <fieldset formGroupName="location">
+    <legend>Location</legend>
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <input type="text" matInput formControlName="address">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Map Url</mat-label>
+      <input type="text" matInput formControlName="mapUrl">
+    </mat-form-field>
+  </fieldset>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Reference Link</mat-label>
+    <input type="url" matInput formControlName="reference">
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline">
+    <mat-label>Props</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Props">
+      <mat-chip-row *ngFor="let prop of form.controls.props.valueChanges | async" (removed)="removeProp(prop)">
+        {{prop}}
+        <button matChipRemove [attr.aria-label]="'remove ' + prop">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    </mat-chip-grid>
+    <input placeholder="New Prop..."
+           #propControl
+           [matChipInputFor]="chipGrid"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+           (matChipInputTokenEnd)="addProp($event); propControl.value = ''"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Additional Info</mat-label>
+    <textarea formControlName="additionalInfo" matInput placeholder="Type some additional information about the record..."></textarea>
+  </mat-form-field>
+
+  <button class="submit-btn"
+          type="button"
+          [disabled]="(form.statusChanges | async) === 'INVALID'"
+          (click)="submit()">Submit</button>
+</form>

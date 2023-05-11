@@ -1,0 +1,26 @@
+<div class="records-container">
+  <div class="head-section">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input type="text"
+             matInput
+             [ngModel]="textFilterValue$ | async"
+             (ngModelChange)="setTextFilterValue($event)">
+    </mat-form-field>
+    <a routerLink="create"><button><i class="fa fa-plus"></i> Add</button></a>
+  </div>
+
+  <div class="record-list" *ngIf="(loading$ | async) === false; else loading">
+      <plan-to-record-item  *ngFor="let record of records$ | async"
+                            [record]="record"
+                            (click)="selectItem(record)"
+                            (remove)="removeItem($event)"/>
+  </div>
+  <ng-template #loading>
+    <plan-to-loading-indicator></plan-to-loading-indicator>
+  </ng-template>
+</div>
+<div class="record-overview-container">
+  <router-outlet (activate)="applyHostClass('expanded')"
+                 (deactivate)="applyHostClass('')"></router-outlet>
+</div>
