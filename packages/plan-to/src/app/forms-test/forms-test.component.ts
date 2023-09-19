@@ -2,39 +2,49 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
+  Inject, Input,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormItemCommon, formItems} from './mockConfig';
-import {AbstractControl, FormBuilder, FormControl} from "@angular/forms";
-import {TextComponent} from "./components/text/text.component";
-import {NumberComponent} from "./components/number/number.component";
+import {BaseControlConfig, formItems, GroupControlConfig, SelectableControlConfig} from './mockConfig';
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+
 import {SelectComponent} from "./components/select/select.component";
 import {PlanToBaseFormControlDirective} from "./components/base-form-control/base-form-control.component";
+import {PlanToBaseFormFieldDirective} from "./components/base-form-control/base-form-field.component";
+import {GroupComponent} from "./components/group/group.component";
+import {PlanToBaseFormGroupDirective} from "./components/base-form-control/base-form-group.component";
+
+
+const defineControl = (type: BaseControlConfig["type"]) => {
+  switch (type) {
+    case 'text':
+    case 'select':
+    case 'number': return new FormControl();
+    case 'group': return new FormGroup({});
+    default: return new FormControl();
+  }
+}
 
 @Component({
   selector: 'plan-to-forms-test',
   standalone: true,
   imports: [CommonModule],
-  providers: [
-    {
-      provide: 'formControlTemplates',
-      useValue: {
-        text: TextComponent,
-        number: NumberComponent,
-        select: SelectComponent
-      }
-    }
-  ],
   templateUrl: './forms-test.component.html',
   styleUrls: ['./forms-test.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormsTestComponent {
   @ViewChild('viewRef', {read: ViewContainerRef}) containerElem !: ViewContainerRef;
-  public formGroup = this.formBuilder.group({});
+
+  @Input() fg = this.formBuilder.group({});
+  @Input() formConfig: GroupControlConfig = {
+    type: "group",
+    name: "form",
+    label: "Single form",
+    controls: Object.values(formItems)
+  }
 
   constructor(
     public formBuilder: FormBuilder,
@@ -43,41 +53,31 @@ export class FormsTestComponent {
   ) {
   }
 
-  public formConfig = {
-    type: "single",
-    label: "Single form",
-    controls: Object.values(formItems) as any[]
-  }
-
   ngAfterViewInit() {
     this.renderForm();
   }
 
   public renderForm() {
-    this.formConfig.controls.forEach((i: FormItemCommon, index: number) => {
+    this.formConfig.controls.forEach((i: BaseControlConfig | SelectableControlConfig | GroupControlConfig, index: number) => {
       if(this.formControlTemplates[i.type]) {
         const {instance} = this.containerElem.createComponent(this.formControlTemplates[i.type]);
 
         if (!instance) return;
 
-        if (instance instanceof PlanToBaseFormControlDirective) {
-          this.formGroup.addControl(i.name, new FormControl());
-          instance.control = this.formGroup.get([i.name]) as FormControl;
-          instance.hideLabel = i.hideLabel;
-          instance.label = i.label;
-          instance.required = i.required
-          instance.additionalText = i.additionalText;
-          // componentRef.setInput('control', this.formGroup.get([i.name]));
-          // componentRef.setInput('hideLabel', i.hideLabel);
-          // componentRef.setInput('label', i.label);
-          // componentRef.setInput('required', i.required);
-          // componentRef.setInput('additionalText', i.additionalText);
+        if (instance instanceof PlanToBaseFormFieldDirective) {
+          this.fg.addControl(i.name, defineControl(i.type));
+          instance.control = this.fg.get([i.name]) as FormControl;
+          instance.hideLabel = i.hideLabel!;
+          instance.label = i.label!;
+          instance.required = i.required!
         }
 
-        if (instance instanceof SelectComponent && i.options) {
-          instance.options = i.options;
-          // componentRef.setInput('options', i.options);
+        if (instance instanceof PlanToBaseFormGroupDirective && ('controls' in i)) {
+          instance.config = i;
         }
+
+        if (instance instanceof PlanToBaseFormControlDirective) instance.additionalText = i.additionalText!;
+        if (instance instanceof SelectComponent && ('options' in i)) instance.options = i.options;
 
       }
     })

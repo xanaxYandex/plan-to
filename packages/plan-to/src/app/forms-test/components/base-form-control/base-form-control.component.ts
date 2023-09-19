@@ -1,15 +1,11 @@
 import {Directive, Input} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {IOption} from "../../mockConfig";
+import {PlanToBaseFormFieldDirective} from "./base-form-field.component";
 
 @Directive({
   selector: '[planToBaseFormControl]',
 })
-export abstract class PlanToBaseFormControlDirective {
-  @Input() control: FormControl | null = new FormControl();
-  @Input() label = '';
+export abstract class PlanToBaseFormControlDirective extends PlanToBaseFormFieldDirective {
+  @Input() override control: FormControl = new FormControl();
   @Input() additionalText = '';
-  @Input() hideLabel = false;
-  @Input() required = true;
-  @Input() value: string | number | IOption | null = null;
 }

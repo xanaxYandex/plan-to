@@ -1,5 +1,5 @@
 <label>
-  <span>{{label}}</span>
+  <span *ngIf="hideLabel">{{label}}</span>
   <i *ngIf="required" [style.color]="'red'">*</i>
   <input type="number" [formControl]="control!">
 </label>

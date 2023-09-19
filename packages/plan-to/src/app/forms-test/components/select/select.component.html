@@ -1,5 +1,5 @@
 <label>
-  <span>{{label}}</span>
+  <span *ngIf="hideLabel">{{label}}</span>
   <i *ngIf="required" [style.color]="'red'">*</i>
   <select [value]="value" [formControl]="control!">
     <option [defaultSelected]="true" value=""></option>

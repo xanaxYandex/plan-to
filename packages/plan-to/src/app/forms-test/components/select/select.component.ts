@@ -14,4 +14,5 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 })
 export class SelectComponent extends PlanToBaseFormControlDirective {
   @Input() options: IOption[] = [];
+  @Input() value: string | number | IOption | null = null;
 }

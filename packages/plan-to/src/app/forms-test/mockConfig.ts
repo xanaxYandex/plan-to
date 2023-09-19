@@ -3,19 +3,26 @@ export interface IOption {
   value: string
 }
 
-export interface FormItemCommon {
-  type: 'text' | 'number' | 'select';
+export interface BaseControlConfig {
+  type: 'text' | 'number' | 'select' | 'group';
   name: string;
-  value: string | number | boolean | null | undefined | string[] | number [];
-  required: boolean;
-  hideLabel: boolean;
-  label: string;
-  additionalText: string;
+  label?: string;
+  required?: boolean;
+  hideLabel?: boolean;
+  additionalText?: string;
   placeholder?: string;
-  options?: IOption[];
 }
 
-export const formItems = {
+export interface SelectableControlConfig extends BaseControlConfig {
+  options: IOption[];
+  value: string | number | boolean | null | undefined | string[] | number [];
+}
+
+export interface GroupControlConfig extends BaseControlConfig {
+  controls: BaseControlConfig[];
+}
+
+export const formItems: any = {
   text: {
     type: 'text',
     placeholder: '',
@@ -40,7 +47,7 @@ export const formItems = {
     showSearch: true,
     label: 'Single select',
     hideLabel: false,
-    name:'SingleSelect',
+    name: 'SingleSelect',
     additionalText: '',
     required: true,
     customValidators: [],
@@ -56,7 +63,7 @@ export const formItems = {
     placeholder: '',
     required: true,
     label: 'Number Input',
-    name:'number',
+    name: 'number',
     hideLabel: false,
     value: '',
     customValidators: [],
@@ -272,31 +279,31 @@ export const formItems = {
   //     key2: 'number',
   //   }
   // },
-  // objectAttribute:{
-  //   name: 'ObjectAttribute',
-  //   type: 'object',
-  //   required: true,
-  //   hideLabel:false,
-  //   validators:[],
-  //   value:{
-  //     key:'Person',
-  //     item_format:{
-  //       "type": "Person",
-  //       "label": "Person",
-  //       "control": {
-  //         "type": "object",
-  //         "label": 'Person',
-  //       },
-  //     },
-  //     value:{
-  //       $ref:{
-  //         "address": "amsdalbase::Person:85af098170ae4bdba9015f2aa0baf0f9",
-  //         "version_id": "",
-  //         "display_name": "Doe, John"
-  //       }
-  //     }
-  //   }
-  // },
+  objectAttribute: {
+    name: 'ObjectAttribute',
+    type: 'object',
+    required: true,
+    hideLabel: false,
+    validators: [],
+    value: {
+      key: 'Person',
+      item_format: {
+        "type": "Person",
+        "label": "Person",
+        "control": {
+          "type": "object",
+          "label": 'Person',
+        },
+      },
+      value: {
+        $ref: {
+          "address": "amsdalbase::Person:85af098170ae4bdba9015f2aa0baf0f9",
+          "version_id": "",
+          "display_name": "Doe, John"
+        }
+      }
+    }
+  },
   // attachment:{
   //   name: 'file',
   //   type:'file',
@@ -323,23 +330,37 @@ export const formItems = {
   //   options:[],
   //   label:'Object latest',
   //   hideLabel:false,
-  // }
+  // },
+
 }
-export const group = {
+formItems.someGroup = {
   type: 'group',
-  name:'group',
+  name: 'someGroup',
   required: true,
   controls: [
     formItems.text,
-    // formItems.textarea,
-    // formItems.radio
+    formItems.number,
+    formItems.singleSelect
+  ],
+  label: 'Group object',
+  hideLabel: false
+};
+
+export const group = {
+  type: 'group',
+  name: 'group',
+  required: true,
+  controls: [
+    formItems.text,
+    formItems.number,
+    formItems.singleSelect
   ],
   label: 'Group object',
   hideLabel: false
 }
 export const outerGroup = {
   type: 'group',
-  name:'group',
+  name: 'group',
   required: true,
   controls: [
     group

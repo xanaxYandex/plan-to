@@ -1,24 +1,30 @@
 import {RouterOutlet} from '@angular/router';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  computed, inject,
-  Input, OnInit,
-  QueryList,
-  signal, TemplateRef,
-  ViewChildren, ViewContainerRef
 } from '@angular/core';
 import {CommonModule, NgFor} from "@angular/common";
-import {LoadingIndicatorComponent} from "./shared/components/loading-indicator/loading-indicator.component";
-import {AbstractControl, FormBuilder, FormControl} from "@angular/forms";
 import {FormsTestComponent} from "./forms-test/forms-test.component";
+import {TextComponent} from "./forms-test/components/text/text.component";
+import {NumberComponent} from "./forms-test/components/number/number.component";
+import {SelectComponent} from "./forms-test/components/select/select.component";
+import {GroupComponent} from "./forms-test/components/group/group.component";
 
 
 @Component({
   standalone: true,
   imports: [RouterOutlet, CommonModule, NgFor, FormsTestComponent],
-  providers: [],
+  providers: [
+    {
+      provide: 'formControlTemplates',
+      useValue: {
+        text: TextComponent,
+        number: NumberComponent,
+        select: SelectComponent,
+        group: GroupComponent
+      }
+    }
+  ],
   selector: 'plan-to-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
