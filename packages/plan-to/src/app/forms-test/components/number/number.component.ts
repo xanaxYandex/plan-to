@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {PlanToBaseFormControlDirective} from "../base-form-control/base-form-control.component";
+import {PlanToBaseFormControlDirective} from "../base-abstract-controls/base-form-control.directive";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @Component({

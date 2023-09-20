@@ -1,28 +1,6 @@
-export interface IOption {
-  label: string;
-  value: string
-}
+import {BaseControlConfig} from "./form-types";
 
-export interface BaseControlConfig {
-  type: 'text' | 'number' | 'select' | 'group';
-  name: string;
-  label?: string;
-  required?: boolean;
-  hideLabel?: boolean;
-  additionalText?: string;
-  placeholder?: string;
-}
-
-export interface SelectableControlConfig extends BaseControlConfig {
-  options: IOption[];
-  value: string | number | boolean | null | undefined | string[] | number [];
-}
-
-export interface GroupControlConfig extends BaseControlConfig {
-  controls: BaseControlConfig[];
-}
-
-export const formItems: any = {
+export const formItems: Record<string, any> = {
   text: {
     type: 'text',
     placeholder: '',
@@ -333,31 +311,34 @@ export const formItems: any = {
   // },
 
 }
-formItems.someGroup = {
-  type: 'group',
-  name: 'someGroup',
-  required: true,
-  controls: [
-    formItems.text,
-    formItems.number,
-    formItems.singleSelect
-  ],
-  label: 'Group object',
-  hideLabel: false
-};
-
 export const group = {
   type: 'group',
   name: 'group',
   required: true,
   controls: [
-    formItems.text,
-    formItems.number,
-    formItems.singleSelect
+    formItems["text"],
+    formItems["number"],
+    formItems["singleSelect"],
   ],
   label: 'Group object',
   hideLabel: false
 }
+
+formItems["someGroup"] = {
+  type: 'group',
+  name: 'someGroup',
+  required: true,
+  controls: [
+    formItems["text"],
+    formItems["number"],
+    formItems["singleSelect"],
+    group
+  ],
+  label: 'Group object',
+  hideLabel: false
+};
+
+
 export const outerGroup = {
   type: 'group',
   name: 'group',

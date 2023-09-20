@@ -1,6 +1,6 @@
 import {Directive, Input} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {PlanToBaseFormFieldDirective} from "./base-form-field.component";
+import {PlanToBaseFormFieldDirective} from "./base-form-field.directive";
 
 @Directive({
   selector: '[planToBaseFormControl]',

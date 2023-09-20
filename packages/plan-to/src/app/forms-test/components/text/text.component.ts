@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule} from "@angular/forms";
-import {PlanToBaseFormControlDirective} from "../base-form-control/base-form-control.component";
+import {PlanToBaseFormControlDirective} from "../base-abstract-controls/base-form-control.directive";
 
 @Component({
   selector: 'plan-to-text',

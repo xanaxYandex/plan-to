@@ -1,15 +1,12 @@
 import {ChangeDetectionStrategy, Component, forwardRef, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsTestComponent} from "../../forms-test.component";
-import {PlanToBaseFormGroupDirective} from "../base-form-control/base-form-group.component";
+import {FormGroupBuilderComponent} from "../../form-group-builder.component";
+import {PlanToBaseFormGroupDirective} from "../base-abstract-controls/base-form-group.directive";
 
 @Component({
   selector: 'plan-to-group',
   standalone: true,
-  providers: [
-    {provide: FormsTestComponent, useExisting: forwardRef(() => FormsTestComponent)}
-  ],
-  imports: [CommonModule, FormsTestComponent],
+  imports: [CommonModule, FormGroupBuilderComponent],
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

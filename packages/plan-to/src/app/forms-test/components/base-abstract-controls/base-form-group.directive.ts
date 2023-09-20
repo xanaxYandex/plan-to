@@ -1,7 +1,8 @@
 import {Directive, Input} from '@angular/core';
 import { FormGroup} from "@angular/forms";
-import {PlanToBaseFormFieldDirective} from "./base-form-field.component";
-import {GroupControlConfig} from "../../mockConfig";
+import {PlanToBaseFormFieldDirective} from "./base-form-field.directive";
+
+import {GroupControlConfig} from "../../form-types";
 
 @Directive({
   selector: '[planToBaseFormGroup]',
