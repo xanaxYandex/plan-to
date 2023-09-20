@@ -19,7 +19,7 @@ import {PlanToBaseFormControlDirective} from "./components/base-abstract-control
 import {PlanToBaseFormFieldDirective} from "./components/base-abstract-controls/base-form-field.directive";
 import {PlanToBaseFormGroupDirective} from "./components/base-abstract-controls/base-form-group.directive";
 import {ControlConfig, GroupControlConfig} from "./form-types";
-import {defineControl, isGroupControl, isSelectableControl} from "./form-helper";
+import {defineControl, isBaseControl, isGroupControl, isSelectableControl} from "./form-helper";
 
 @Component({
   selector: 'plan-to-form-group-builder',
@@ -67,7 +67,7 @@ export class FormGroupBuilderComponent implements AfterViewInit {
         }
 
         if (instance instanceof PlanToBaseFormGroupDirective && isGroupControl(i)) instance.config = i;
-        if (instance instanceof PlanToBaseFormControlDirective) instance.additionalText = i.additionalText!;
+        if (instance instanceof PlanToBaseFormControlDirective && isBaseControl(i)) instance.additionalText = i.additionalText!;
         if (instance instanceof SelectComponent && isSelectableControl(i)) instance.options = i.options;
       }
     })

@@ -1,4 +1,10 @@
-import {BaseControlConfig, ControlConfig, GroupControlConfig, SelectableControlConfig} from "./form-types";
+import {
+  BaseControlConfig,
+  BaseFormItemConfig,
+  ControlConfig,
+  GroupControlConfig,
+  SelectableControlConfig
+} from "./form-types";
 import {FormControl, FormGroup} from "@angular/forms";
 
 export function isSelectableControl(config: ControlConfig): config is SelectableControlConfig {
@@ -9,7 +15,11 @@ export function isGroupControl(config: ControlConfig): config is GroupControlCon
   return 'controls' in config;
 }
 
-export const defineControl = (type: BaseControlConfig["type"]) => {
+export function isBaseControl(config: ControlConfig): config is BaseControlConfig {
+  return 'additionalText' in config;
+}
+
+export const defineControl = (type: BaseFormItemConfig["type"]) => {
   switch (type) {
     case 'text':
     case 'select':
