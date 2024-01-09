@@ -10,6 +10,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
+import {RecordsSignalStateService} from "../../services/records-signal-state.service";
 
 @Component({
   selector: 'plan-to-records',
@@ -31,13 +32,13 @@ import {MatSelectModule} from '@angular/material/select';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecordsComponent {
-  private readonly state = inject(RecordsStateService);
+  private readonly state = inject(RecordsSignalStateService);
   private readonly route = inject(ActivatedRoute);
 
-  public textFilterValue$: Observable<string> = this.state.textFilter$.asObservable();
+  public textFilterValue= this.state.textFilter;
 
-  public records$: Observable<IFilmingRecord[]> = this.state.records$;
-  public loading$: Observable<boolean> = this.state.loadingList$;
+  public records = this.state.records;
+  public loading= this.state.loading;
 
   @HostBinding('class') hostClass = this.route.children.length ? 'expanded' : '';
 

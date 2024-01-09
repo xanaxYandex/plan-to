@@ -6,6 +6,7 @@ import {IFilmingRecord} from '@plan-to-lib';
 import {AsyncPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
 import {LoadingIndicatorComponent} from '../../../../shared/components/loading-indicator/loading-indicator.component';
 import {MatChipsModule} from '@angular/material/chips';
+import {RecordsSignalStateService} from "../../../../services/records-signal-state.service";
 
 
 @Component({
@@ -17,14 +18,15 @@ import {MatChipsModule} from '@angular/material/chips';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecordOverviewComponent implements OnInit{
-  private readonly state = inject(RecordsStateService);
+  private readonly state = inject(RecordsSignalStateService);
   private readonly route = inject(ActivatedRoute);
 
-  public record$: BehaviorSubject<IFilmingRecord | null> = this.state.selectedItemSource$;
+  public record = this.state.selectedRecord;
 
   public ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
-    if(id && this.record$?.value?._id !== id) {
+    const record  = this.record();
+    if(id && (!record || record._id !== id)) {
       this.state.getRecord(id);
     }
   }

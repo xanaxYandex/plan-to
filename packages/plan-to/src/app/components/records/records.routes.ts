@@ -5,6 +5,9 @@ import {RecordsApiService} from '../../services/records-api.service';
 import {provideState} from '@ngrx/store';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {keyInterceptor} from '../../interceptors/key.interceptor';
+import {RecordsSignalStateService} from "../../services/records-signal-state.service";
+import {toObservable, toSignal} from "@angular/core/rxjs-interop";
+import {filter, tap} from "rxjs";
 
 export default [
   {
@@ -13,6 +16,7 @@ export default [
     loadComponent: () => import('./records.component').then((c) => c.RecordsComponent),
     providers: [
       RecordsStateService,
+      RecordsSignalStateService,
       RecordsApiService
     ],
     children: [
@@ -42,14 +46,17 @@ export default [
           )
         ],
         resolve: {
-          selectedItem: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-            const [recordsState, id] = [inject(RecordsStateService), route.params['id']];
+          selectedItem: (route: ActivatedRouteSnapshot) => {
+            const [recordsState, id] = [inject(RecordsSignalStateService), route.params['id']];
+            const record = recordsState.selectedRecord();
 
-            if(recordsState.selectedItemSource$.value?._id !== id) {
-              recordsState.getRecord(id);
-              return recordsState.selectedItemSource$;
-            }
-            return recordsState.selectedItemSource$.value;
+            if (record && record._id === id) return record;
+
+            recordsState.getRecord(id);
+
+            return toObservable(recordsState.selectedRecord).pipe(
+              filter(record => !!record)
+            );
           }
         }
       }

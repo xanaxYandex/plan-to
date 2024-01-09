@@ -11,6 +11,7 @@ import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {RecordsSignalStateService} from "../../../../services/records-signal-state.service";
 
 @Component({
   selector: 'plan-to-record-editor',
@@ -33,7 +34,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
   ]
 })
 export class RecordEditorComponent implements OnInit {
-  private readonly state = inject(RecordsStateService);
+  private readonly state = inject(RecordsSignalStateService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly builder = inject(FormBuilder);
@@ -59,8 +60,8 @@ export class RecordEditorComponent implements OnInit {
 
   public ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
+    const record  = this.state.selectedRecord();
     if (this.id) {
-      const record = this.state.selectedItemSource$.getValue();
       record && this.setForm(record);
     }
   }

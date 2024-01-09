@@ -7,16 +7,12 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/plan-to",
         "index": "packages/plan-to/src/index.html",
         "main": "packages/plan-to/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "packages/plan-to/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -24,9 +20,7 @@
           "packages/plan-to/src/assets",
           "packages/plan-to/src/manifest.webmanifest"
         ],
-        "styles": [
-          "packages/plan-to/src/styles.scss"
-        ],
+        "styles": ["packages/plan-to/src/styles.scss"],
         "scripts": [],
         "serviceWorker": true,
         "ngswConfigPath": "packages/plan-to/ngsw-config.json"
@@ -90,9 +84,7 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "packages/plan-to/**/*.ts",
@@ -102,9 +94,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/plan-to/jest.config.ts",
         "passWithNoTests": true

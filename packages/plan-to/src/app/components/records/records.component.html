@@ -4,21 +4,25 @@
       <mat-label>Search</mat-label>
       <input type="text"
              matInput
-             [ngModel]="textFilterValue$ | async"
+             [ngModel]="textFilterValue()"
              (ngModelChange)="setTextFilterValue($event)">
     </mat-form-field>
     <a routerLink="create"><button><i class="fa fa-plus"></i> Add</button></a>
   </div>
 
-  <div class="record-list" *ngIf="(loading$ | async) === false; else loading">
-      <plan-to-record-item  *ngFor="let record of records$ | async"
-                            [record]="record"
-                            (click)="selectItem(record)"
-                            (remove)="removeItem($event)"/>
-  </div>
-  <ng-template #loading>
+  @if (!loading()) {
+    <div class="record-list">
+      @for (record of records(); track record._id) {
+        <plan-to-record-item
+          [record]="record"
+          (click)="selectItem(record)"
+          (remove)="removeItem($event)"/>
+      }
+    </div>
+  } @else {
     <plan-to-loading-indicator></plan-to-loading-indicator>
-  </ng-template>
+  }
+
 </div>
 <div class="record-overview-container">
   <router-outlet (activate)="applyHostClass('expanded')"

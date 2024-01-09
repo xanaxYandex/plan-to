@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable, of, tap} from 'rxjs';
+import {map, Observable, of, tap} from 'rxjs';
 import {
   CreateFilmingRecordDto,
   IFilmingRecord,
@@ -50,17 +50,24 @@ export class RecordsApiService {
   private readonly urlWithSuffix = `${this.env.api}/records`;
 
   public getAll(): Observable<IFilmingRecord[]> {
-    return of([...mockRecords]);
+    // return of([...mockRecords]);
+    return this.http.get<IFilmingRecord[]>(`./assets/data/records.json`);
     // return this.http.get<IFilmingRecord[]>(`${this.urlWithSuffix}`);
   }
 
   public getById(id: string): Observable<IFilmingRecord> {
-    return of(mockRecords.find(item => item._id === id) ?? mockRecords[0]);
+    // return of(mockRecords.find(item => item._id === id) ?? mockRecords[0]);
+    return this.http.get<IFilmingRecord[]>(`./assets/data/records.json`).pipe(
+      map((records) => records.find(item => item._id === id) ?? records[0])
+    );
     // return this.http.get<IFilmingRecord>(`${this.urlWithSuffix}/${id}`);
   }
 
   public create(record: CreateFilmingRecordDto): Observable<IFilmingRecord> {
-    return of({_id: (Math.random() * 4576).toString(), ...record});
+    // return of({_id: (Math.random() * 4576).toString(), ...record});
+    return this.http.get<IFilmingRecord>(`./assets/data/records.json`).pipe(
+      map(() => ({_id: (Math.random() * 4576).toString(), ...record}))
+    );
     // return this.http.post<IFilmingRecord>(`${this.urlWithSuffix}`, record);
   }
 
@@ -68,12 +75,18 @@ export class RecordsApiService {
     id: string,
     record: UpdateFilmingRecordDto
   ): Observable<IFilmingRecord> {
-    return of({_id: id, ...record as CreateFilmingRecordDto});
+    // return of({_id: id, ...record as CreateFilmingRecordDto});
+    return this.http.get<IFilmingRecord>(`./assets/data/records.json`).pipe(
+      map(() => ({_id: id, ...record as CreateFilmingRecordDto}))
+    );
     // return this.http.patch<IFilmingRecord>(`${this.urlWithSuffix}/${id}`, record);
   }
 
   public deleteById(id: string): Observable<string> {
-    return of(id);
+    // return of(id);
+    return this.http.get<IFilmingRecord>(`./assets/data/records.json`).pipe(
+      map(() => id)
+    );
     // return this.http.delete<string>(`${this.urlWithSuffix}/${id}`);
   }
 }
